@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 
 export class Create extends React.Component {
 
@@ -16,16 +17,35 @@ export class Create extends React.Component {
             author: ''
         }
     }
+
+
     handleSubmit(e)
     {
         e.preventDefault();
         console.log(` ${this.state.title},
         ${this.state.cover}, ${this.state.author}`);
-        this.setState = ({
+
+
+        this.setState = {
             title:'',
             cover: '',
             author: ''
-        })
+        }
+
+    const newBook = {
+        title: this.state.title,
+        cover: this.state.cover,
+        author: this.state.author
+    }
+
+     //Making request to the url localhost:4000 and passing the books that are added into the database
+     axios.post('http://localhost:3000/api/books', newBook)
+     .then((res)=>{
+         console.log(res);
+     })
+     .catch((err)=>{
+         console.log(err);
+     });
     }
 
     onChangeBookTitle(e)
@@ -84,7 +104,7 @@ export class Create extends React.Component {
                             onChange={this.onChangeBookAuthor}
                         />
                     </div>
-                    <input type="submit" value="Submit" />
+                    <input type="submit" value="Add Book" className="btn btn-primary" />
                 </form>
             </div>
         );
